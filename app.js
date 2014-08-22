@@ -51,6 +51,14 @@ var runService = function() {
     link: String,
     developers: Number,
     followers: Number,
+    createDate: String,
+    updateDate: String,
+    account_created: String,
+    account_followings_url: String,
+    account_followers_url: String,
+    account_followings: Number,
+    account_followers: Number,
+    url: String,
     plans: [Prices]
   });
 
@@ -60,7 +68,7 @@ var runService = function() {
     mashapeAPIModel.collection.remove(function(err) {
       if (err) {console.log(err);}
       else {
-        url = "https://mashape.p.mashape.com/apis?limit=2000";
+        url = "https://mashape.p.mashape.com/apis?limit=3000";
         request({
           url: url,
           method: 'get',
@@ -79,14 +87,16 @@ var runService = function() {
             _.each(apis, function(api) {
               docs.push({
                 user: api.user.username.toLowerCase(),
-                name: api.name.toLowerCase(),
+                name: api.url.slice(api.url.indexOf('/apis')+6),
                 category: api.category == null ? '' : api.category.name.toLowerCase(),
-                link: 'https://mashape.com/'+api.user.username.toLowerCase().split(/[ -.]+/).join('-')+'/'+api.name.toLowerCase().split(/[ -.]+/).join('-')+'/pricing',
+                link: 'https://mashape.com/'+api.user.username.toLowerCase().split(/[ -.]+/).join('-')+'/'+api.url.slice(api.url.indexOf('/apis')+6)+'/pricing',
+                url: api.url,
                 followers: 0,
                 developers: 0,
                 plans: []
-              })
+              });
             });
+            console.log(docs[0]);
             mashapeAPIModel.collection.insert(docs, function(err) {
               if (err) {
                 console.log(err);
@@ -102,7 +112,7 @@ var runService = function() {
   }
 
   var queryAPIinfo = function() {
-    mashapeAPIModel.find({}, {}, {skip: 1210}, function(err, apis) {
+    mashapeAPIModel.find({}, {}, {limit: 5}, function(err, apis) {
       var req_options = [];
       _.each(apis, function(api) {
         req_options.push({
@@ -130,7 +140,7 @@ var runService = function() {
             var match;
             var startPriceIndex = [];
             var endPriceIndex = [];
-
+            var plans = [];
             while ((match = regexp.exec(body)) != null) {
               startPriceIndex.push(match.index);
             }
@@ -139,16 +149,7 @@ var runService = function() {
               endPriceIndex.push(match.index);
             }
 
-            var startDevIndex = body.indexOf('<span class=number>');
-            var endDevIndex = body.indexOf('<span class=title>Developer');
-            var startFollowIndex = body.indexOf('class="counter number">');
-            var endFollowIndex = body.indexOf('<span class=title>Follower');
 
-            var devRaw = body.slice(startDevIndex, endDevIndex);
-            var followRaw = body.slice(startFollowIndex, endFollowIndex);
-            var dev = parseInt(devRaw.slice(19, devRaw.indexOf('</span>')));
-            var follow = parseInt(followRaw.slice(23, followRaw.indexOf('</span>')));
-            var plans = [];
             for (i=0; i<startPriceIndex.length; i++) {
               var priceRaw = body.slice(startPriceIndex[i], endPriceIndex[i]);
               plans.push(
@@ -156,12 +157,30 @@ var runService = function() {
               );
             }
 
+            var startJSONindex = body.indexOf("Mashape.Store('api.version').set(JSON.parse(decodeURIComponent(");
+            var endJSONindex = body.length - 14;
+            var api_json = startJSONindex > -1 ? JSON.parse(decodeURIComponent(body.slice(startJSONindex + 64, endJSONindex))) : {};
+
+            if (api_json.api != undefined) console.log(api_json.api.account.creationDate);
+            var developers = api_json.api != undefined ? api_json.api.developers.total : 0;
+            var followers = api_json.api != undefined ? api_json.api.followers.total : 0;
+            var createDate = api_json.api != undefined ? api_json.api.creationDate : "";
+            var updateDate = api_json.api != undefined ? api_json.api.updateDate : "";
+            var account_created = api_json.api != undefined ? api_json.api.account.creationDate : "";
+            var account_followers_url = api_json.api != undefined ? api_json.api.account.links.accountsfollowing.href : "";
+            var account_followings_url = api_json.api != undefined ? api_json.api.account.links.followers.href : "";
+
             mashapeAPIModel.collection.update(
               {_id: req.id },
               {
                 $set: {
-                  developers: dev,
-                  followers: follow,
+                  developers: developers,
+                  followers: followers,
+                  createDate: createDate,
+                  updateDate: updateDate,
+                  account_created: account_created,
+                  account_followings_url: account_followings_url,
+                  account_followers_url: account_followers_url,
                   plans: plans
                 }
 
@@ -178,12 +197,56 @@ var runService = function() {
     });
   }
 
+  var queryAPIaccount = function() {
+    mashapeAPIModel.find({}, {}, {}, function(err, apis) {
+      if (err) console.log(err);
+      else {
+        _.each(apis, function(api) {
+
+          var outputs = {};
+          _.each([api.account_followings_url, api.account_followers_url], function(url) {
+            if (url != '') {
+              var good_url = url.indexOf('https://10.1') > -1 ?  "https://www.mashape.com"+url.slice(url.indexOf('/api/')) : url;
+              request({url: good_url, method: 'get', agent: false}, function(error, res, body) {
+                if (error) {console.log(error); console.log(good_url);}
+                else {
+                  var data = JSON.parse(body);
+                  var name = url.indexOf('accountsfollowing') > -1 ? 'account_followings' : 'account_followers';
+                  var value = data.total;
+                  outputs[name] = value;
+                  if (Object.keys(outputs).length == 2) {
+                    //save
+                    console.log(outputs);
+                    mashapeAPIModel.collection.update(
+                      {_id: api._id },
+                      {
+                        $set: {
+                          account_followings: outputs.account_followings,
+                          account_followers: outputs.account_followers
+                        }
+                      }, function(err) {
+                        //console.log(api.name);
+                        if (err) console.log(err); else console.log("done updating.");
+                      }
+                    );
+                  }
+                }
+              });
+            }
+
+          });
+        });
+      }
+    });
+  }
+
+
   //fetchAPI();
   //queryAPIinfo();
-
+  //queryAPIaccount();
 
   app.get('/api/name/:name', function(req, res) {
-    mashapeAPIModel.collection.find({name: req.params.name}, function(err, apis) {
+    mashapeAPIModel.find({name: req.params.name}, function(err, apis) {
       if (err) {
         return console.log(err);
       } else {
@@ -206,7 +269,9 @@ var runService = function() {
     {
       _id: '$user',
       developers: {$sum: '$developers'},
-      followers: {$sum: '$followers'},
+      followers: {$first: '$account_followers'},
+      followings: {$first: '$account_followings'},
+      account_created: {$first: '$account_created'},
       api_count: {$sum: 1}
     };
 
@@ -221,6 +286,13 @@ var runService = function() {
         user: {$first: "$user"},
         name: {$first: "$name"},
         category: {$first: "$category"},
+        createDate: {$first: "$createDate"},
+        updateDate: {$first: "$updateDate"},
+        account_created: {$first: "$account_created"},
+        account_followers_url: {$first: "$account_followers_url"},
+        account_followings_url: {$first: "$account_followings_url"},
+        account_followers: {$first: "$account_followers"},
+        account_followings: {$first: "$account_followings"},
         total: {$sum: "$plans.price"},
         plans_count: {$sum: 1},
         plans: {$addToSet: "$plans.price"}

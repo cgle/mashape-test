@@ -5,18 +5,18 @@
   </div>
   <div class='col col-md-4'>
     <h3>pricing stats</h3>
-    <table class='table table-stripe'>
+    <table class='table table-striped'>
       <thead>
         <tr>
-          <th width='70%'>field</th>
-          <th width='30%'>value</th>
+          <th width='60%'>field</th>
+          <th width='40%'>value</th>
         </tr>
       </thead>
       <tbody>
         <% _.each(price_stats, function(stats) { %>
           <tr>
             <td><%= stats.name %></td>
-            <td><%= stats.value %></td>
+            <td><b><%= stats.value %></b></td>
           </tr>
         <% }); %>
       </tbody>
@@ -24,18 +24,18 @@
   </div>
   <div class='col col-md-4'>
     <h3>top devs stats</h3>
-    <table class='table table-stripe'>
+    <table class='table table-striped'>
       <thead>
         <tr>
-          <th width='70%'>field</th>
-          <th width='30%'>value</th>
+          <th width='60%'>field</th>
+          <th width='40%'>value</th>
         </tr>
       </thead>
       <tbody>
         <% _.each(devs_stats, function(stats) { %>
           <tr>
             <td><%= stats.name %></td>
-            <td><%= stats.value %></td>
+            <td><b><%= stats.value %></b></td>
           </tr>
         <% }); %>
       </tbody>
@@ -44,6 +44,13 @@
 </div>
 
 <div class='row' style="margin-top: 40px; margin-bottom: 40px;">
+  <div class='col col-md-12'>
+    <h3>category distribution chart</h3>
+    <div id="distibution-chart"></div>
+  </div>
+</div>
+
+<div class='row' style="margin-bottom: 40px;">
   <div class='col col-md-6'>
     <h3>price vs followers</h3>
     <div id='price-followers-chart'></div>
@@ -54,10 +61,28 @@
   </div>
 </div>
 
-<div class='row' style="margin-bottom: 50px">
+<div class='row' style='margin-bottom: 40px'>
   <div class='col col-md-12'>
-    <h3>category distribution chart</h3>
-    <div id="distibution-chart"></div>
+    <h3>apis/publishers over time</h3>
+    <div id="apis-pubs-over-time"></div>
   </div>
 </div>
+
+<div class='row' style='margin-bottom: 40px'>
+  <div class='col col-md-4'>
+    <h3>hours of day</h3>
+    <div id='hours-day-chart'></div>
+  </div>
+  <div class='col col-md-4'>
+    <h3>days of week</h3>
+    <div id='days-week-chart'></div>
+  </div>
+  <div class='col col-md-4'>
+    <h3>months of year</h3>
+    <div id='months-year-chart'></div>
+  </div>
+</div>
+
+
+
 

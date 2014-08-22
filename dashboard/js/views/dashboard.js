@@ -1,5 +1,5 @@
-define(['jquery','underscore','backbone','d3','c3','text!templates/dashboard.html'],
- function($,_,Backbone,d3,c3,dashboardTemplate) {
+define(['jquery','underscore','backbone','d3','c3','dateformat','text!templates/dashboard.html'],
+ function($,_,Backbone,d3,c3,dateformat,dashboardTemplate) {
   var dashboardView = Backbone.View.extend({
     el: $('#dashboard'),
     initialize: function(opts) {
@@ -7,11 +7,13 @@ define(['jquery','underscore','backbone','d3','c3','text!templates/dashboard.htm
       $.when(
         $.get('/api/list?group=users'),
         $.get('/api/list?type=free'),
-        $.get('/api/list?type=paid')
-      ).done(function(users, free, paid) {
+        $.get('/api/list?type=paid'),
+        $.get('/api/list')
+      ).done(function(users, free, paid, all) {
         that.users = users[0].data;
         that.free = free[0].data;
         that.paid = paid[0].data;
+        that.all = all[0].data;
         that.render();
       });
     },
@@ -118,11 +120,10 @@ define(['jquery','underscore','backbone','d3','c3','text!templates/dashboard.htm
         columns[4].push(c.api_count);
       });
 
-      var user_max_devs = _.max(this.users, function(u) {return u.developers});
+      var user_max_followings = _.max(this.users, function(u) {return u.followings});
       var user_max_follows = _.max(this.users, function(u) {return u.followers});
       var user_max_apis = _.max(this.users, function(u) {return u.api_count});
 
-      console.log(user_max_apis);
       var compiledtemplate = _.template(dashboardTemplate, {
         price_stats: [
           {name: 'avg price per paid public API', value: (sum_avg/that.paid.length).toFixed(2)},
@@ -137,18 +138,139 @@ define(['jquery','underscore','backbone','d3','c3','text!templates/dashboard.htm
           {name: 'paid API with most followers', value: paid_max_follows.name+' ('+paid_max_follows.value+' follows)'},
           {name: 'free API with most devs', value: free_max_devs.name+' ('+free_max_devs.value+' devs)'},
           {name: 'free API with most followers', value: free_max_follows.name+' ('+free_max_follows.value+' follows)'},
-          {name: 'total API publishers', value: 723},
-          {name: 'publishers with most APIs', value: user_max_apis._id+' ('+user_max_apis.api_count+' APIs)'},
-          {name: 'publishers with most devs', value: user_max_devs._id+' ('+user_max_devs.developers+' devs)'},
-          {name: 'publishers with most followers', value: user_max_follows._id+' ('+user_max_follows.followers+' follows)'}
+          {name: 'total API publishers', value: 746},
+          {name: 'publisher with most APIs', value: user_max_apis._id+' ('+user_max_apis.api_count+' APIs)'},
+          {name: 'publisher with most followers', value: user_max_follows._id+' ('+user_max_follows.followers+' followers)'}
         ]
       });
+
+      var time_apis = {};
+      var time_pubs = {};
+      var time_updates = {};
+      var columns_time = [
+        ['time-publishers'],
+        ['publishers'],
+        ['time-apis'],
+        ['apis'],
+        ['time-updates'],
+        ['updates']
+      ];
+
+      var columns_updates = [
+        ['time-updates'],
+        ['updates']
+      ];
+
+      var columns_day_week = [
+        ['days', 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
+        ['pubs-count'],
+        ['apis-count']
+      ];
+
+      var columns_month_year = [
+        ['months'],
+        ['pubs-count'],
+        ['apis-count']
+      ]
+
+      var columns_hour_day = [
+        ['hours'],
+        ['pubs-count'],
+        ['apis-count']
+      ]
+
+      var day_week_count = {};
+      var month_year_count = {};
+      var hour_day_count = {};
+
+      _.each(that.users, function(d) {
+        var account_created = (new Date(d.account_created)).format('yyyy-m');
+        var month = (new Date(d.account_created)).getMonth();
+        var day = (new Date(d.account_created)).getDay();
+        var hour = (new Date(d.account_created)).getHours();
+
+        if (time_pubs[account_created] == undefined) {
+          time_pubs[account_created] = 0;
+        }
+
+        if (day_week_count[day] == undefined) day_week_count[day] = {pubs: 0, apis: 0};
+        if (month_year_count[month] == undefined) month_year_count[month] = {pubs: 0, apis: 0};
+        if (hour_day_count[hour] == undefined) hour_day_count[hour] = {pubs: 0, apis: 0};
+        day_week_count[day].pubs++;
+        month_year_count[month].pubs++;
+        hour_day_count[hour].pubs++;
+
+        time_pubs[account_created]++;
+      });
+
+
+
+      _.each(that.all, function(d) {
+        var createDate = (new Date(d.createDate)).format('yyyy-m');
+        var updateDate = (new Date(d.updateDate)).format('yyyy-m');
+        var month = (new Date(d.createDate)).getMonth();
+        var day = (new Date(d.createDate)).getDay();
+        var hour = (new Date(d.createDate)).getHours();
+        if (time_apis[createDate] == undefined) {
+          time_apis[createDate] = 0;
+        }
+
+        if (time_updates[updateDate] == undefined) {
+          time_updates[updateDate] = 0;
+        }
+
+        if (day_week_count[day] == undefined) day_week_count[day] = {pubs: 0, apis: 0};
+        if (month_year_count[month] == undefined) month_year_count[month] = {pubs: 0, apis: 0};
+        if (hour_day_count[hour] == undefined) hour_day_count[hour] = {pubs: 0, apis: 0};
+        day_week_count[day].apis++;
+        month_year_count[month].apis++;
+        hour_day_count[hour].apis++;
+        time_apis[createDate]++;
+        time_updates[updateDate]++;
+      });
+
+      _.each(time_apis, function(count, time) {
+        columns_time[2].push(time);
+        columns_time[3].push(count);
+      });
+
+      _.each(time_pubs, function(count, time) {
+        columns_time[0].push(time);
+        columns_time[1].push(count);
+      });
+
+      _.each(time_updates, function(count, time) {
+        columns_updates[0].push(time);
+        columns_updates[1].push(count);
+      });
+
+      _.each(day_week_count, function(count, day) {
+        columns_day_week[1][parseInt(day)+1] = count.pubs;
+        columns_day_week[2][parseInt(day)+1] = count.apis;
+      });
+
+      _.each(month_year_count, function(count, month) {
+        columns_month_year[0].push(parseInt(month)+1);
+        columns_month_year[1].push(count.pubs);
+        columns_month_year[2].push(count.apis);
+      });
+
+      _.each(hour_day_count, function(count, hour) {
+        columns_hour_day[0].push(parseInt(hour));
+        columns_hour_day[1].push(count.pubs);
+        columns_hour_day[2].push(count.apis);
+      });
+
       this.$el.html(compiledtemplate);
 
       this.graphLine('price-followers-chart', 0, columns_follow);
       this.graphLine('price-devs-chart', 1, columns_devs);
       this.graphDistribution(columns);
+      this.graphAPIPubTime(columns_time);
       this.graphPie();
+      this.graphChart('days-week-chart', 0, columns_day_week, {'pubs-count': 'bar', 'apis-count': 'spline'}, 'days');
+      this.graphChart('months-year-chart', 1, columns_month_year, {'pubs-count': 'bar', 'apis-count': 'spline'}, 'months');
+      this.graphChart('hours-day-chart', 1, columns_hour_day, {'pubs-count': 'bar', 'apis-count': 'spline'}, 'hours');
     },
     graphPie: function() {
       var chart = c3.generate({
@@ -158,9 +280,9 @@ define(['jquery','underscore','backbone','d3','c3','text!templates/dashboard.htm
         },
         data: {
           columns: [
-            ['free', 923],
-            ['paid', 189],
-            ['N/A', 109]
+            ['free', 952],
+            ['paid', 205],
+            ['N/A', 65]
           ],
           type: 'pie'
         },
@@ -228,7 +350,75 @@ define(['jquery','underscore','backbone','d3','c3','text!templates/dashboard.htm
           pattern: ['#79d4f2','#6ca1b6','#4ac327','#FE2E2E']
         }
       })
+    },
+    graphAPIPubTime: function(columns) {
+      var chart = c3.generate({
+        bindto: '#apis-pubs-over-time',
+        size: {
+          height: 400
+        },
+        data: {
+          x_format: '%Y-%m',
+          columns: columns,
+          xs: {
+            'publishers': 'time-publishers',
+            'apis': 'time-apis',
+          },
+          types: {
+            'publishers': 'bar',
+            'apis': 'spline',
+          },
+          axes: {
+            apis: 'y2',
+            publishers: 'y',
+          }
+        },
+        axis: {
+          x: {
+            type: 'timeseries',
+            tick: {
+                format: '%Y-%m'
+            }
+          },
+          y2: {
+            show: true
+          }
+        },
+        color: {
+          pattern: ['#79d4f2','#6ca1b6','#4ac327','#FE2E2E']
+        }
+      });
+    },
+    graphChart: function(container, color, columns, types, x) {
+      var colors = ['#8cc1db','#4ac327','#FE2E2E'];
+      var graph = c3.generate({
+        bindto: '#'+container,
+        size: {
+          height: 360
+        },
+        data: {
+          x: x,
+          columns: columns,
+          type: 'bar',
+          types: types,
+          axes: {
+            'apis-count': 'y2'
+          }
+        },
+        axis: {
+          x: {
+            type: 'category'
+          },
+          y2: {
+            show: true
+          }
+        },
+        color: {
+          pattern: colors
+        }
+      });
     }
+
   });
 
   return dashboardView;

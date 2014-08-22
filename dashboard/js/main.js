@@ -8,6 +8,7 @@ require.config({
     "c3": "libs/c3",
     "bootstrap": "libs/bootstrap",
     "templates": "../templates",
+    "dateformat": "libs/dateformat",
     },
     shim: {
       "underscore": {
@@ -18,6 +19,7 @@ require.config({
         deps: ["jquery", "underscore"],
         exports: "Backbone"
       },
+      "dateformat": {exports:"dateformat"},
       "d3": {exports: "d3"},
       "bootstrap": {exports: "bootstrap",deps:["jquery"]},
       "c3": {exports: "c3", deps:["d3"]}
