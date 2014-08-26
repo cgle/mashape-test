@@ -247,8 +247,8 @@ var runService = function() {
 
 
   //fetchAPI();
-  queryAPIinfo();
-  //queryAPIaccount();
+  //queryAPIinfo();
+  queryAPIaccount();
 
   app.get('/api/name/:name', function(req, res) {
     mashapeAPIModel.find({name: req.params.name}, function(err, apis) {
