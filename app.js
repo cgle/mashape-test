@@ -117,7 +117,7 @@ var runService = function() {
   }
 
   var queryAPIinfo = function() {
-    mashapeAPIModel.find({}, {}, {limit: 5}, function(err, apis) {
+    mashapeAPIModel.find({}, {}, {}, function(err, apis) {
       var req_options = [];
       _.each(apis, function(api) {
         req_options.push({
