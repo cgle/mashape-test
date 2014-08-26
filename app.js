@@ -246,7 +246,7 @@ var runService = function() {
   }
 
 
-  //fetchAPI();
+  fetchAPI();
   //queryAPIinfo();
   //queryAPIaccount();
 
