@@ -319,5 +319,7 @@ var runService = function() {
     });
   });
 
-  app.listen(8080);
+  app.listen(8080, function() {
+    console.log('listening');
+  });
 }
