@@ -246,8 +246,8 @@ var runService = function() {
   }
 
 
-  fetchAPI();
-  //queryAPIinfo();
+  //fetchAPI();
+  queryAPIinfo();
   //queryAPIaccount();
 
   app.get('/api/name/:name', function(req, res) {
