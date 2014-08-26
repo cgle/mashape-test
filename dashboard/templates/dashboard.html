@@ -1,85 +1,100 @@
-<div class='row'>
-  <div class='col col-md-4'>
-    <h3>free vs paid APIs</h3>
-    <div id="free-v-paid-chart"></div>
+<div id='container' style='margin-left: 5%; margin-right: 5%'>
+  <div class='row' style='margin-bottom:30px'>
+    <a href='#'>overall analytics</a> |
+    <a href='#/review'>API reviews</a> |
+    <a href='#/admin'>API admin</a>
   </div>
-  <div class='col col-md-4'>
-    <h3>pricing stats</h3>
-    <table class='table table-striped'>
-      <thead>
-        <tr>
-          <th width='60%'>field</th>
-          <th width='40%'>value</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% _.each(price_stats, function(stats) { %>
+  <div class='row'>
+    <div class='col col-md-4'>
+      <h3>free vs paid APIs</h3>
+      <div id="free-v-paid-chart"></div>
+    </div>
+    <div class='col col-md-4'>
+      <h3>participants stats</h3>
+      <table class='table table-striped'>
+        <thead>
           <tr>
-            <td><%= stats.name %></td>
-            <td><b><%= stats.value %></b></td>
+            <th width='60%'>field</th>
+            <th width='40%'>value</th>
           </tr>
-        <% }); %>
-      </tbody>
-    </table>
-  </div>
-  <div class='col col-md-4'>
-    <h3>top devs stats</h3>
-    <table class='table table-striped'>
-      <thead>
-        <tr>
-          <th width='60%'>field</th>
-          <th width='40%'>value</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% _.each(devs_stats, function(stats) { %>
+        </thead>
+        <tbody>
+          <% _.each(devs_stats, function(stats) { %>
+            <tr>
+              <td><%= stats.name %></td>
+              <td><b><%= stats.value %></b></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+    <div class='col col-md-4'>
+      <h3>pricing stats</h3>
+      <table class='table table-striped'>
+        <thead>
           <tr>
-            <td><%= stats.name %></td>
-            <td><b><%= stats.value %></b></td>
+            <th width='60%'>field</th>
+            <th width='40%'>value</th>
           </tr>
-        <% }); %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <% _.each(price_stats, function(stats) { %>
+            <tr>
+              <td><%= stats.name %></td>
+              <td><b><%= stats.value %></b></td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 
-<div class='row' style="margin-top: 40px; margin-bottom: 40px;">
-  <div class='col col-md-12'>
-    <h3>category distribution chart</h3>
-    <div id="distibution-chart"></div>
+  <div class='row' style="margin-top: 40px; margin-bottom: 40px;">
+    <div class='col col-md-12'>
+      <h3>category distribution chart</h3>
+      <div id="distibution-chart"></div>
+    </div>
   </div>
-</div>
 
-<div class='row' style="margin-bottom: 40px;">
-  <div class='col col-md-6'>
-    <h3>price vs followers</h3>
-    <div id='price-followers-chart'></div>
+  <div class='row' style="margin-bottom: 40px;">
+    <div class='col col-md-6'>
+      <h3>price vs followers</h3>
+      <div id='price-followers-chart'></div>
+    </div>
+    <div class='col col-md-6'>
+      <h3>price vs developers</h3>
+      <div id='price-devs-chart'></div>
+    </div>
   </div>
-  <div class='col col-md-6'>
-    <h3>price vs developers</h3>
-    <div id='price-devs-chart'></div>
-  </div>
-</div>
 
-<div class='row' style='margin-bottom: 40px'>
-  <div class='col col-md-12'>
-    <h3>apis/publishers over time</h3>
-    <div id="apis-pubs-over-time"></div>
+  <div class='row' style='margin-bottom: 40px'>
+    <div class='col col-md-12'>
+      <h3>apis/publishers over time</h3>
+      <div id="apis-pubs-over-time"></div>
+    </div>
   </div>
-</div>
 
-<div class='row' style='margin-bottom: 40px'>
-  <div class='col col-md-4'>
-    <h3>hours of day</h3>
-    <div id='hours-day-chart'></div>
+  <div class='row' style='margin-bottom: 40px'>
+    <div class='col col-md-12'>
+      <h3>API growth rate MoM: paid vs free (in %)</h3>
+      <div id="growth-over-time"></div>
+    </div>
   </div>
-  <div class='col col-md-4'>
-    <h3>days of week</h3>
-    <div id='days-week-chart'></div>
-  </div>
-  <div class='col col-md-4'>
-    <h3>months of year</h3>
-    <div id='months-year-chart'></div>
+
+
+  <div class='row' style='margin-bottom: 40px'>
+    <div class='col col-md-4'>
+      <h3>hours of day</h3>
+      <div id='hours-day-chart'></div>
+    </div>
+    <div class='col col-md-4'>
+      <h3>days of week</h3>
+      <div id='days-week-chart'></div>
+    </div>
+    <div class='col col-md-4'>
+      <h3>months of year</h3>
+      <div id='months-year-chart'></div>
+    </div>
   </div>
 </div>
 

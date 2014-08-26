@@ -1,0 +1,280 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 25 March 2009), see www.w3.org" />
+
+  <title>Mashape - Free API Management Platform &amp; Marketplace</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="description" content=
+  "Mashape is a world-class marketplace to consume, distribute, manage, and monitor both private and public APIs from developers all over the world." />
+  <link rel="stylesheet" href=
+  "https://s3.amazonaws.com/mashape-production-assets/vendor/vendor.min.v0063.css" type=
+  "text/css" />
+  <link rel="stylesheet" href=
+  "https://s3.amazonaws.com/mashape-production-assets/third-party/bootstrap/dist/css/bootstrap.min.css?.v0063"
+  type="text/css" />
+  <link rel="stylesheet" href=
+  "https://s3.amazonaws.com/mashape-production-assets/third-party/font-awesome/css/font-awesome.min.css?v0063"
+  type="text/css" />
+  <link rel="stylesheet" href=
+  "https://s3.amazonaws.com/mashape-production-assets/css/style.v0063.css" type=
+  "text/css" />
+  <link rel="stylesheet" href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.min.css"
+  type="text/css" />
+  <meta property="twitter:account_id" content="21079776" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@mashape" />
+  <meta name="twitter:title" content=
+  "Mashape - Free API Management Platform &amp; Marketplace" />
+  <meta name="twitter:description" content=
+  "Mashape is a world-class marketplace to consume, distribute, manage, and monitor both private and public APIs from developers all over the world." />
+  <meta name="twitter:creator" content="" />
+  <meta name="twitter:image:src" content="http://i.imgur.com/cp9I00B.png" />
+  <meta name="twitter:domain" content="mashape.com" /><!-- AB Testing (via vwo)-->
+</head>
+
+<body>
+
+  <div class="page">
+    <div class="page-content">
+      <div class="profile api">
+        <div id="developers" role="dialog" class="modal fade no-footer">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Developers</h4>
+              </div>
+
+              <div class="modal-body">
+                <div class="scrollbox developers"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="upload-logo" role="dialog" class="modal fade">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Upload</h4>
+
+                <h5 class="modal-subtitle">Be Creative!</h5>
+              </div>
+
+              <div class="upload-logo">
+                <form method="post" enctype="multipart/form-data">
+                  <div class="modal-body">
+                    <ul>
+                      <li>Recommended size: 500 x 250 or more</li>
+
+                      <li>Allowed file types: png, jpg, and gif</li>
+                    </ul>
+
+                    <div for="logo" class="inline">
+                      <input type="file" name="logo" required="" class="inline" />
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button data-processing-text="processing..." type="submit"
+                    data-loading-text="Loading..." class="btn btn-primary"><span class=
+                    "btn-text">Upload</span></button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="invite" role="dialog" class="modal fade no-footer">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Invite Developers to your API</h4>
+              </div>
+
+              <div class="modal-body">
+                <div class="invite-search-box">
+                  <input name="username" placeholder="Enter the username to invite"
+                  class="search" /><a data-loading-text="Loading..." class=
+                  "btn search-btn pull-right btn-primary"><span class=
+                  "btn-text">search</span></a>
+                </div>
+
+                <p>Invite developers to your public or private APIs. Mashape will send an
+                email to them granting them access.</p>
+
+                <div class="scrollbox invite"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="head">
+          <div class="left-part">
+            <div class="image pull-left">
+              <div class="logo-wrapper">
+                <a data-toggle="modal" data-target="#upload-logo" class=
+                "image-upload owner"><img src=
+                "https://s3.amazonaws.com/mashape-production-assets/images/default-api_medium.png"
+                alt="dummy" class="profile-pic logo" /></a>
+              </div>
+            </div>
+
+            <div class="details pull-left">
+              <h1 title="This API is private" class="name truncate private">
+              dummy</h1><a href="/jwatanabe7/dummy/admin/general" title=
+              "Make this API Public" class="private-label">Private API</a>
+
+              <div class="meta-info">
+                <div class="owner pull-left">
+                  <a href="/jwatanabe7">jwatanabe7</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats pull-right">
+            <a data-target="#developers" data-toggle="modal" class=
+            "stat developers"><span class="number">1</span><span class=
+            "title">Developer</span></a><a class="stat followers"><span data-action=
+            "api-jwatanabe7~dummy" class="counter number">0</span><span class=
+            "title">Follower<span class="ending">s</span></span></a>
+
+            <form data-action="follow-api-jwatanabe7~dummy" class="follow api">
+              <input type="hidden" name="name" value="dummy" /><input type="hidden" name=
+              "account" value="jwatanabe7" /><a data-loading-text="Loading..." class=
+              "btn btn-success owner"><span class="btn-text">You own this API</span></a>
+            </form>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <div class="clearfix">
+            <div class="pull-right">
+              <a href="/jwatanabe7/dummy/admin" class="btn active"><span class=
+              "text">Analytics &amp; Settings</span></a>
+            </div>
+
+            <ul class="list-inline">
+              <li>
+                <h5><a href="/jwatanabe7/dummy"><span>Documentation</span></a></h5>
+              </li>
+
+              <li>
+                <h5><a href="/jwatanabe7/dummy/pricing"><span>Pricing</span></a></h5>
+              </li>
+
+              <li>
+                <h5><a href="/jwatanabe7/dummy/overview"><span>Overview</span></a></h5>
+              </li>
+
+              <li>
+                <h5><a href="/jwatanabe7/dummy/status"><span>Status</span></a></h5>
+              </li>
+
+              <li>
+                <h5><a href=
+                "/jwatanabe7/dummy/announcements"><span>Announcements</span></a></h5>
+              </li>
+
+              <li>
+                <h5><a href="/jwatanabe7/dummy/support"><span>API Support</span></a></h5>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="admin">
+          <div style="top: 280px" class="sidebar">
+            <p class="menu-title">Analytics</p>
+
+            <ul>
+              <li><a href="/jwatanabe7/dummy/admin/" data-tab="overview"><span class=
+              "title">Overview</span></a></li>
+
+              <li><a href="/jwatanabe7/dummy/admin/developers" data-tab=
+              "developers"><span class="title">Developers</span></a></li>
+            </ul>
+
+            <p class="menu-title">Settings</p>
+
+            <ul>
+              <li><a href="/jwatanabe7/dummy/admin/general" data-tab="general" class=
+              "settings"><span class="title">General</span></a></li>
+
+              <li><a href="/jwatanabe7/dummy/admin/network" data-tab="network" class=
+              "settings"><span class="title">Network</span></a></li>
+
+              <li><a href="/jwatanabe7/dummy/admin/transformations" data-tab=
+              "transformations" class="transformations"><span class=
+              "title">Transformations</span></a></li>
+
+              <li><a data-target="#invite" data-toggle="modal" class=
+              "settings"><span class="title">Invite devs to your API</span></a></li>
+            </ul>
+          </div>
+
+          <div class="inner-content">
+            <div class="page-heading flush push-up clearfix">
+              <div class="pull-right">
+                <div class="timeframe filter-item">
+                  <span class="label">Timeframe:</span><select>
+                    <option value="seconds">
+                      Last Minute
+                    </option>
+
+                    <option value="minutes">
+                      Last Hour
+                    </option>
+
+                    <option value="hours">
+                      Last Day
+                    </option>
+
+                    <option value="days">
+                      Last Week
+                    </option>
+
+                    <option value="months">
+                      Last Year
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel panel-default panel-card analytics-chart">
+              <div class="panel-heading">
+                <h4>Summary</h4>
+              </div>
+
+              <div class="panel-body">
+                <div class="graph-container">
+                  Chart Will Go Here
+                </div>
+              </div>
+
+              <div class="panel-legend">
+                <div class="item">
+                  <label>Requests</label>
+                </div>
+
+                <div class="item">
+                  <label>Latency</label>
+                </div>
+
+                <div class="item">
+                  <label>Errors</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

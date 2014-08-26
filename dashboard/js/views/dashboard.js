@@ -261,12 +261,78 @@ define(['jquery','underscore','backbone','d3','c3','dateformat','text!templates/
         columns_hour_day[2].push(count.apis);
       });
 
-      this.$el.html(compiledtemplate);
 
+      var paid_timecount = {};
+      var free_timecount = {};
+
+      _.each(that.paid, function(d) {
+        var createDate = Date.parse((new Date(d.createDate)).format('yyyy-m'));
+        if (paid_timecount[createDate] == undefined) paid_timecount[createDate] = 0;
+        paid_timecount[createDate]++;
+      });
+
+      _.each(that.free, function(d) {
+        var createDate = Date.parse((new Date(d.createDate)).format('yyyy-m'));
+        if (free_timecount[createDate] == undefined) free_timecount[createDate] = 0;
+        free_timecount[createDate]++;
+      });
+
+      var paid_t = [];
+      var free_t = [];
+      _.each(paid_timecount, function(c,t) {
+        paid_t.push({time: t, count: c});
+      });
+
+      _.each(free_timecount, function(c,t) {
+        free_t.push({time: t, count: c});
+      });
+
+      paid_t = _.sortBy(paid_t, function(t) {return t.time});
+      free_t = _.sortBy(free_t, function(t) {return t.time});
+
+      var paid_growth = [];
+      var free_growth = [];
+      for (i=1; i<paid_t.length; i++) {
+        var m = (new Date(parseInt(paid_t[i].time) + 10*1000*60*60)).format('yyyy-m');
+        var m_prev = (new Date(parseInt(paid_t[i-1].time))).format('yyyy-m');
+        var ped = (parseInt(m.slice(5))) - (parseInt(m_prev.slice(5)));
+        ped = ped >= 0 ? ped : 12+ped;
+        paid_growth.push({month: m, count: paid_t[i].count, growth: (Math.pow(paid_t[i].count/paid_t[i-1].count,1/ped)-1)*100});
+      }
+
+      for (i=1; i<free_t.length; i++) {
+        var m = (new Date(parseInt(free_t[i].time) + 10*1000*60*60)).format('yyyy-m');
+        var m_prev = (new Date(parseInt(free_t[i-1].time))).format('yyyy-m');
+        var ped = (parseInt(m.slice(5))) - (parseInt(m_prev.slice(5)));
+        ped = ped >= 0 ? ped : 12+ped;
+        free_growth.push({month: m, count: free_t[i].count, growth: (Math.pow(free_t[i].count/free_t[i-1].count,1/ped)-1)*100});
+      }
+
+      console.log(paid_t);
+
+      var columns_growth = [
+        ['time_paid'],
+        ['growth_paid'],
+        ['time_free'],
+        ['growth_free']
+      ];
+
+      _.each(free_growth, function(c) {
+        columns_growth[2].push(c.month);
+        columns_growth[3].push(c.growth);
+      });
+
+      _.each(paid_growth, function(c) {
+        columns_growth[0].push(c.month);
+        columns_growth[1].push(c.growth);
+      });
+
+      this.$el.html(compiledtemplate);
       this.graphLine('price-followers-chart', 0, columns_follow);
       this.graphLine('price-devs-chart', 1, columns_devs);
       this.graphDistribution(columns);
       this.graphAPIPubTime(columns_time);
+      this.graphGrowth(columns_growth);
       this.graphPie();
       this.graphChart('days-week-chart', 0, columns_day_week, {'pubs-count': 'bar', 'apis-count': 'spline'}, 'days');
       this.graphChart('months-year-chart', 1, columns_month_year, {'pubs-count': 'bar', 'apis-count': 'spline'}, 'months');
@@ -381,7 +447,11 @@ define(['jquery','underscore','backbone','d3','c3','dateformat','text!templates/
             }
           },
           y2: {
+            label: 'apis',
             show: true
+          },
+          y: {
+            label: 'publishers'
           }
         },
         color: {
@@ -410,11 +480,41 @@ define(['jquery','underscore','backbone','d3','c3','dateformat','text!templates/
             type: 'category'
           },
           y2: {
+            label: 'apis',
             show: true
+          },
+          y: {
+            label: 'publishers'
           }
         },
         color: {
           pattern: colors
+        }
+      });
+    },
+    graphGrowth: function(columns) {
+      var chart = c3.generate({
+        bindto: '#growth-over-time',
+        data: {
+          columns: columns,
+          x_format: '%Y-%m',
+          xs: {
+            growth_paid: 'time_paid',
+            growth_free: 'time_free'
+          },
+          type: 'spline'
+        },
+        axis: {
+          x: {
+            type: 'timeseries',
+            tick: {
+                format: '%Y-%m'
+            }
+          },
+          y: {
+            label: '%'
+          }
+
         }
       });
     }

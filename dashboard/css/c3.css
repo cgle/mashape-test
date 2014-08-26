@@ -101,7 +101,7 @@
 
 .c3-line {
   stroke-width: 1px;
-  opacity: 1;
+  opacity: 0.8;
 }
 /*-- Point --*/
 
@@ -115,8 +115,9 @@
 }
 
 .c3-shape {
-  opacity: 1 !important;
+  opacity: 0.75;
 }
+
 
 /*-- Bar --*/
 
@@ -210,7 +211,7 @@
 
 .c3-area {
   stroke-width: 0;
-  opacity: 0.2;
+  opacity: 0.5;
 }
 
 .c3-chart-arcs .c3-chart-arcs-background {

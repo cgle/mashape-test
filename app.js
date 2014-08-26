@@ -44,6 +44,11 @@ var runService = function() {
     quota: Number
   });
 
+  var mashapeUser = new Schema({
+    user: String,
+    profile_picture: String
+  });
+
   var mashapeAPI = new Schema({
     name: String,
     user: String,
@@ -160,15 +165,15 @@ var runService = function() {
             var startJSONindex = body.indexOf("Mashape.Store('api.version').set(JSON.parse(decodeURIComponent(");
             var endJSONindex = body.length - 14;
             var api_json = startJSONindex > -1 ? JSON.parse(decodeURIComponent(body.slice(startJSONindex + 64, endJSONindex))) : {};
+            var check_api = api_json.api != undefined;
 
-            if (api_json.api != undefined) console.log(api_json.api.account.creationDate);
-            var developers = api_json.api != undefined ? api_json.api.developers.total : 0;
-            var followers = api_json.api != undefined ? api_json.api.followers.total : 0;
-            var createDate = api_json.api != undefined ? api_json.api.creationDate : "";
-            var updateDate = api_json.api != undefined ? api_json.api.updateDate : "";
-            var account_created = api_json.api != undefined ? api_json.api.account.creationDate : "";
-            var account_followers_url = api_json.api != undefined ? api_json.api.account.links.accountsfollowing.href : "";
-            var account_followings_url = api_json.api != undefined ? api_json.api.account.links.followers.href : "";
+            var developers = check_api ? api_json.api.developers.total : 0;
+            var followers = check_api ? api_json.api.followers.total : 0;
+            var createDate = check_api ? api_json.api.creationDate : "";
+            var updateDate = check_api ? api_json.api.updateDate : "";
+            var account_created = check_api ? api_json.api.account.creationDate : "";
+            var account_followers_url = check_api ? api_json.api.account.links.accountsfollowing.href : "";
+            var account_followings_url = check_api ? api_json.api.account.links.followers.href : "";
 
             mashapeAPIModel.collection.update(
               {_id: req.id },

@@ -1,0 +1,49 @@
+<div class='row' id='reviews-header'>
+</div>
+
+<div class='row'>
+  <div class='col col-md-8'>
+  <% _.each(reviews, function(r) { %>
+    <div class='review'>
+      <div class='review-header row' width='100%'>
+      <div id='stars' style="width: <%= r.width %>px; background-color: gold; height: 20px; background-image: url('imgs/stars-white.png'); background-repeat: repeat-x; padding-left: 0px;" class='col col-md-2'>
+      </div>
+        <div id='review-title' class='col col-md-8'><b><%= r.title%></b></div>
+        <div id='profile-pic' class='col col-md-2' style='float:right'>
+          <img src='imgs/profile.png' style='border: 1px white; border-radius: 30px;'>
+        </div>
+      </div>
+      <div class='row review-content'>
+        <p>
+          <%= r.content %>
+        </p>
+      </div>
+      <div class='review-footer'>
+        <a>Comment</a>
+      </div>
+    </div>
+  <% }); %>
+  </div>
+  <div class='col col-md-4'>
+    <div id='review-stats'>
+      <li>
+        <ul>
+          <div id='stars' style="width: 110px; background-color: gold; height: 20px; background-image: url('imgs/stars-white.png'); background-repeat: repeat-x;">
+          </div>
+           <%= stats.five %> reviews</ul>
+        <ul>
+          <div id='stars' style="width: 88px; background-color: gold; height: 20px; background-image: url('imgs/stars-white.png'); background-repeat: repeat-x;">
+          </div> <%= stats.four %> reviews</ul>
+        <ul>
+          <div id='stars' style="width: 66px; background-color: gold; height: 20px; background-image: url('imgs/stars-white.png'); background-repeat: repeat-x;">
+          </div> <%= stats.three %> reviews</ul>
+        <ul>
+          <div id='stars' style="width: 44px; background-color: gold; height: 20px; background-image: url('imgs/stars-white.png'); background-repeat: repeat-x;">
+          </div> <%= stats.two %> reviews</ul>
+        <ul>
+          <div id='stars' style="width: 22px; background-color: gold; height: 20px; background-image: url('imgs/stars-white.png'); background-repeat: repeat-x;">
+          </div> <%= stats.one %> reviews</ul>
+      </li>
+    </div>
+  </div>
+</div>

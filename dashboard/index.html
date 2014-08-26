@@ -8,22 +8,89 @@
 
     <title></title>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/bootstrap/css/dashboard.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/vendor.min.v0063.css" rel="stylesheet">
+    <link href="css/style.v0063.css" rel="stylesheet">
     <link href="css/c3.css" rel="stylesheet">
+    <link href="css/jRating.jquery.css" rel="stylesheet">
     <style type="text/css">
       body {
         color: #7f8c8d;
       }
-    </style>
+
+      .profile.api .admin .sidebar {
+        position: fixed;
+        z-index: -1;
+        margin-top:280px;
+        margin-left: 15px;
+      }
+      .table {
+        border: 1px solid #ddd;
+      }
+      h3 {
+        margin-bottom: 20px;
+      }
+
+      .review, #review-stats {
+        background: white;
+        /* margin-left: 2px; */
+        padding-left:20px;
+        padding-right:20px;
+        padding-top: 10px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-radius: 9px;
+        border: 1px white;
+      }
+
+      #review-stats li {
+        list-style-type: none;
+      }
+
+      #review-stats ul {
+        font-weight: 600;
+      }
+
+      #profile-pic {
+        border: 1px white;
+        border-radius: 30px;
+        height: 50px;
+      }
+
+      .chart-box {
+        background: white;
+        /* margin-left: 2px; */
+        padding-left:10px;
+        padding-right:10px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-radius: 9px;
+        border: 1px white;
+      }
+      .admin-content .col-md-4 {
+        width: 31%; margin-right:2%;
+      }
+
+      .admin-content .col-md-12 {
+        width: 97%;
+      }
+
+      .admin-content .col-md-8 {
+        width: 64%;
+      }
+     </style>
   </head>
   <body>
-    <div class='container-fluid'>
-      <div id="dashboard" style="padding-left: 40px; padding-right: 40px">
 
+
+    <div class='container-fluid'>
+      <div id="dashboard">
       </div>
     </div>
 
+    <script type="text/javascript" src="https://cdn.ravenjs.com/1.1.11/jquery,native/raven.min.js"></script><script type="text/javascript" src="https://js.stripe.com/v2/"></script><script type="text/javascript" src="https://s3.amazonaws.com/mashape-production-assets/vendor/vendor.min.v0063.js"></script><script type="text/javascript" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script><script type="text/javascript" src="https://s3.amazonaws.com/mashape-production-assets/third-party/zeroclipboard/ZeroClipboard.min.js"></script><script type="text/javascript" src="https://s3.amazonaws.com/mashape-production-assets/third-party/bootstrap/dist/js/bootstrap.min.js"></script><script type="text/javascript" src="https://s3.amazonaws.com/mashape-production-assets/third-party/moment/min/moment.min.js"></script><script type="text/javascript" src="https://s3.amazonaws.com/mashape-production-assets/third-party/davis.js/davis.min.js"></script><script type="text/javascript" src="https://s3.amazonaws.com/mashape-production-assets/scripts/mashape.min.v0063.js" crossorigin></script>
     <script data-main="js/main" type="text/javascript" src="js/libs/require.js"></script>
+    <script type="text/javascript" src="js/libs/jRating.jquery.min.js"></script>
+
   </body>
 </html>
