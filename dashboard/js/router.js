@@ -1,10 +1,11 @@
-define(['jquery','underscore','backbone', 'bootstrap','views/dashboard', 'views/admin', 'views/review', 'views/collab'],
-	function($,_,Backbone, boostrap, dashboardView, adminView, reviewView, collabView) {
+define(['jquery','underscore','backbone', 'bootstrap','views/dashboard', 'views/admin', 'views/review', 'views/collab', 'views/pricing'],
+	function($,_,Backbone, boostrap, dashboardView, adminView, reviewView, collabView, pricingView) {
 		var AppRouter = Backbone.Router.extend({
 			routes: {
 				//albums/123?track_period=20&campaign=a,b,c&accept=&brand=&other=
 				"review": "reviewAPI",
 				"admin": "adminAPI",
+				"pricing": "pricingAPI",
 				"collabs": "collabAPI",
 				"": "defaultAction"
 			}
@@ -55,6 +56,10 @@ define(['jquery','underscore','backbone', 'bootstrap','views/dashboard', 'views/
 			app_router.on("route:reviewAPI", function() {
 				var view = new reviewView({});
 				feedbackHandler();
+			});
+
+			app_router.on("route:pricingAPI", function() {
+				var view = new pricingView({});
 			});
 
 			app_router.on("route:adminAPI", function() {
