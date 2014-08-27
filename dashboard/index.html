@@ -16,11 +16,11 @@
     <style type="text/css">
       body {
         color: #7f8c8d;
+        min-width: 1200px;
       }
 
       .profile.api .admin .sidebar {
         position: fixed;
-        z-index: -1;
         margin-top:280px;
         margin-left: 15px;
       }
@@ -78,6 +78,61 @@
       .admin-content .col-md-8 {
         width: 64%;
       }
+
+      #reviews-header {
+        background: white;
+        /* margin-left: 2px; */
+        padding-left:20px;
+        z-index: 1;
+        padding-right:20px;
+        padding-top: 10px;
+        margin-bottom: 20px;
+        margin-left: -15px;
+        margin-right: -15px;
+        padding-bottom: 10px;
+        border-radius: 9px;
+        border: 1px white;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      }
+
+      .profile.api .admin .inner-content {
+        padding-left: 50px;
+      }
+
+      #tasks-container {
+        background: white;
+        /* margin-left: 2px; */
+        padding-left:20px;
+        padding-right:20px;
+        padding-top: 10px;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-radius: 9px;
+        border: 1px white;
+      }
+
+      #add-review {
+        display: inline-block;
+        vertical-align: baseline;
+        zoom: 1;
+        float: left;
+        /* margin: 7px 0 0 20px; */
+        padding: 4px 7px;
+        color: white;
+        background-color: green;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -ms-border-radius: 3px;
+        -o-border-radius: 3px;
+        border-radius: 3px;
+        border: 1px;
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      .modal-body .account-row > div:first-of-type {
+        width: 315px;
+      }
      </style>
   </head>
   <body>
@@ -88,9 +143,86 @@
       </div>
     </div>
 
+    <div class='modal fade' id='feedback-modal' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="feedback-modal-label" style='color: #6cc148'>We love APIs. Let us know what you think about Mashape? Or about anything. Really :)</h4>
+          </div>
+          <div class="modal-body">
+            <textarea rows="4" cols="50">
+            </textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class='modal fade' id='developers' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="feedback-modal-label" style='color: #6cc148'>DEVELOPERS</h4>
+          </div>
+          <div class="modal-body" style='max-height: 450px; overflow: scroll'>
+            <div class='account-row'>
+              <div>
+                <input type='text' id='inputAddDev' size="35" placeholder='Type username or email'>
+              </div>
+              <div class='follow'>
+                <button class='btn btn-success follow' id='invite-dev'>Invite</button>
+              </div>
+            </div>
+            <div class='account-row'>
+              <div>
+                <img src="https://www.gravatar.com/avatar/5fcb495e4510022cd8c0a2ed0efc09ba?d=retro&amp;r=pg&amp;s=50" class="pull-left img-circle">
+                <a href="/jwatanabe7" class="name">jwatanabe7</a>
+              </div>
+              <div class='follow'>
+                <button class='btn btn-success follow'>Follow</button>
+              </div>
+            </div>
+            <div class='account-row'>
+              <div>
+                <img src="https://www.gravatar.com/avatar/5fcb495e4510022cd8c0a2ed0efc09ba?d=retro&amp;r=pg&amp;s=50" class="pull-left img-circle">
+                <a href="/jwatanabe7" class="name">jwatanabe7</a>
+              </div>
+              <div class='follow'>
+                <button class='btn btn-success follow'>Follow</button>
+              </div>
+            </div>
+            <div class='account-row'>
+              <div>
+                <img src="https://www.gravatar.com/avatar/5fcb495e4510022cd8c0a2ed0efc09ba?d=retro&amp;r=pg&amp;s=50" class="pull-left img-circle">
+                <a href="/jwatanabe7" class="name">jwatanabe7</a>
+              </div>
+              <div class='follow'>
+                <button class='btn btn-success follow'>Follow</button>
+              </div>
+            </div>
+            <div class='account-row'>
+              <div>
+                <img src="https://www.gravatar.com/avatar/5fcb495e4510022cd8c0a2ed0efc09ba?d=retro&amp;r=pg&amp;s=50" class="pull-left img-circle">
+                <a href="/jwatanabe7" class="name">jwatanabe7</a>
+              </div>
+              <div class='follow'>
+                <button class='btn btn-success follow'>Follow</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <script type="text/javascript" src="https://cdn.ravenjs.com/1.1.11/jquery,native/raven.min.js"></script><script type="text/javascript" src="https://js.stripe.com/v2/"></script><script type="text/javascript" src="https://s3.amazonaws.com/mashape-production-assets/vendor/vendor.min.v0063.js"></script><script type="text/javascript" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script><script type="text/javascript" src="https://s3.amazonaws.com/mashape-production-assets/third-party/zeroclipboard/ZeroClipboard.min.js"></script><script type="text/javascript" src="https://s3.amazonaws.com/mashape-production-assets/third-party/bootstrap/dist/js/bootstrap.min.js"></script><script type="text/javascript" src="https://s3.amazonaws.com/mashape-production-assets/third-party/moment/min/moment.min.js"></script><script type="text/javascript" src="https://s3.amazonaws.com/mashape-production-assets/third-party/davis.js/davis.min.js"></script><script type="text/javascript" src="https://s3.amazonaws.com/mashape-production-assets/scripts/mashape.min.v0063.js" crossorigin></script>
+
     <script data-main="js/main" type="text/javascript" src="js/libs/require.js"></script>
-    <script type="text/javascript" src="js/libs/jRating.jquery.min.js"></script>
 
   </body>
 </html>

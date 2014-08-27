@@ -22,10 +22,27 @@ define(['jquery','underscore','backbone','text!templates/mashape-view.html','tex
         $('.sidebar').html(compiledSidebar);
         $('.tabs').html(compiledtabs);
         $('.inner-content').html(compiledReviews);
+
+        $('#invite-dev').on('click', function() {
+          $('#developers .modal-body').append(
+            '<div class="account-row">\
+              <div>\
+                <img src="https://www.gravatar.com/avatar/5fcb495e4510022cd8c0a2ed0efc09ba?d=retro&amp;r=pg&amp;s=50" class="pull-left img-circle">\
+                <a href="/jwatanabe7" class="name">'+$('#inputAddDev').val()+'</a>\
+              </div>\
+              <div class="follow">\
+                <button class="btn btn-success follow">Follow</button>\
+              </div>\
+            </div>'
+            );
+        });
+
         $(window).scroll(function(){
           var fromTop = $(window).scrollTop();
           var margin = _.max([280-fromTop, 50]);
+          var margin_heading = _.max([fromTop - 240, 0])
           $(".sidebar").css('margin-top', margin + 'px');
+          $('#reviews-header').css('margin-top', margin_heading + 'px');
         });
       },
       generateReviews: function() {

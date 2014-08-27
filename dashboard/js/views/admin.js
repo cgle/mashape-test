@@ -18,6 +18,20 @@ define(['jquery','underscore','backbone', 'd3', 'c3', 'text!templates/mashape-vi
         $('.sidebar').html(compiledSidebar);
         $('.tabs').html(compiledtabs);
         $('.inner-content').html(compiledContent);
+        $('#invite-dev').on('click', function() {
+          $('#developers .modal-body').append(
+            '<div class="account-row">\
+              <div>\
+                <img src="https://www.gravatar.com/avatar/5fcb495e4510022cd8c0a2ed0efc09ba?d=retro&amp;r=pg&amp;s=50" class="pull-left img-circle">\
+                <a href="/jwatanabe7" class="name">'+$('#inputAddDev').val()+'</a>\
+              </div>\
+              <div class="follow">\
+                <button class="btn btn-success follow">Follow</button>\
+              </div>\
+            </div>'
+            );
+        });
+
         $(window).scroll(function(){
           var fromTop = $(window).scrollTop();
           var margin = _.max([280-fromTop, 50]);

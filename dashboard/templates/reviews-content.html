@@ -1,7 +1,4 @@
-<div class='row' id='reviews-header'>
-</div>
-
-<div class='row'>
+<div class='row' id='reviews-container' style='position:relative'>
   <div class='col col-md-8'>
   <% _.each(reviews, function(r) { %>
     <div class='review'>
@@ -24,8 +21,18 @@
     </div>
   <% }); %>
   </div>
-  <div class='col col-md-4'>
-    <div id='review-stats'>
+  <div class='col col-md-4' style='position: absolute; right:0'>
+    <div class='row' id='reviews-header'>
+      <div class='col col-md-8'>
+        <a>Newest</a> |
+        <a>Highest rating</a> |
+        <a>Lowest rating</a>
+      </div>
+      <div class='col col-md-4'>
+        <button id='add-review'>Add review</button>
+      </div>
+    </div>
+    <div class='row' id='review-stats'>
       <li>
         <ul>
           <div id='stars' style="width: 110px; background-color: gold; height: 20px; background-image: url('imgs/stars-white.png'); background-repeat: repeat-x;">

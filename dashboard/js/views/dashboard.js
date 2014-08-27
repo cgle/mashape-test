@@ -126,12 +126,12 @@ define(['jquery','underscore','backbone','d3','c3','dateformat','text!templates/
 
       var compiledtemplate = _.template(dashboardTemplate, {
         price_stats: [
-          {name: 'avg price per paid public API', value: (sum_avg/that.paid.length).toFixed(2)},
-          {name: 'highest avg price', value: max},
-          {name: 'lowest avg price', value: min},
+          {name: 'avg price per paid public API', value: '$'+(sum_avg/that.paid.length).toFixed(2)},
+          {name: 'highest avg price', value: '$'+max},
+          {name: 'lowest avg price', value: '$'+min},
           {name: 'cheapest plan', value: 0},
-          {name: 'most expensive plan', value: max_plan},
-          {name: 'avg price per plan', value: (sum_avg/plans_total_count).toFixed(2)}
+          {name: 'most expensive plan', value: '$'+max_plan},
+          {name: 'avg price per plan', value: '$'+(sum_avg/plans_total_count).toFixed(2)}
         ],
         devs_stats: [
           {name: 'paid API with most devs', value: paid_max_devs.name+' ('+paid_max_devs.value+' devs)'},
@@ -307,8 +307,6 @@ define(['jquery','underscore','backbone','d3','c3','dateformat','text!templates/
         ped = ped >= 0 ? ped : 12+ped;
         free_growth.push({month: m, count: free_t[i].count, growth: (Math.pow(free_t[i].count/free_t[i-1].count,1/ped)-1)*100});
       }
-
-      console.log(paid_t);
 
       var columns_growth = [
         ['time_paid'],
